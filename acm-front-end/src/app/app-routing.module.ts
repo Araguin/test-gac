@@ -4,7 +4,8 @@ import { ChargedFeesComponent } from './app/charged-fees/charged-fees.component'
 
 
 const routes: Routes = [
-	{ path: 'charged-fees', component: ChargedFeesComponent }
+	{ path: 'charged-fees', component: ChargedFeesComponent },
+	{ path: '',   redirectTo: '/charged-fees', pathMatch: 'full' }
 ];
 
 @NgModule({
