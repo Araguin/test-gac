@@ -10,9 +10,10 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use App\Entity\Enum\ChargedFeesState;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ChargedFeesRepository")
  * @ApiResource(
  *     iri="http://schema.org/ChargedFees",
  *     normalizationContext={
@@ -57,6 +58,7 @@ class ChargedFees
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id
+     * @Groups({"charged_fees_read"})
      */
     protected $id;
 
@@ -92,6 +94,24 @@ class ChargedFees
      */
     public $state;
 
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(nullable=true)
+     * @ApiProperty(iri="http://schema.org/rowsNumber")
+     * @Groups({"charged_fees_read"})
+     */
+    public $rowsNumber;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(nullable=true)
+     * @ApiProperty(iri="http://schema.org/errorsNumber")
+     * @Groups({"charged_fees_read"})
+     */
+    public $errorsNumber;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -99,11 +119,11 @@ class ChargedFees
 
     /**
      * @param string $type
-     * @return Message
+     * @return ChargedFees
      */
      public function setType($type)
     {
-        if (!in_array($type, ChargedFeesStateEnum::getAvailableStates())) {
+        if (!in_array($type, ChargedFeesState::getAvailableStates())) {
             throw new \InvalidArgumentException("Invalid type");
         }
 

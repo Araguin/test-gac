@@ -12,6 +12,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
+import {MatToolbarModule} from '@angular/material/toolbar'; 
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatTableModule,
     MatCardModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ChargedFees;
-use App\Entity\ChargedFeesStateEnum;
+use App\Entity\Enum\ChargedFeesState;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -18,7 +18,7 @@ final class CreateChargedFeesAction
 
         $chargedFees = new ChargedFees();
         $chargedFees->file = $uploadedFile;
-        $chargedFees->state = ChargedFeesStateEnum::LOADED;
+        $chargedFees->state = ChargedFeesState::LOADED;
 
         return $chargedFees;
     }

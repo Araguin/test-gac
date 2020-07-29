@@ -5,17 +5,26 @@
       <button mat-flat-button color="primary" [disabled]="!form.valid || isLoading">Submit</button>
   </form>
   <table mat-table [dataSource]="chargedFees" class="mat-elevation-z8">
-    <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.contentUrl}} </td>
     </ng-container>
 
-    <!-- Weight Column -->
     <ng-container matColumnDef="state">
       <th mat-header-cell *matHeaderCellDef> state </th>
       <td mat-cell *matCellDef="let element"> {{element.state}} </td>
     </ng-container>
+
+    <ng-container matColumnDef="totalRows">
+      <th mat-header-cell *matHeaderCellDef> Total rows </th>
+      <td mat-cell *matCellDef="let element"> {{element.rowsNumber}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="errors">
+      <th mat-header-cell *matHeaderCellDef> Errors </th>
+      <td mat-cell *matCellDef="let element"> {{element.errorsNumber}} </td>
+    </ng-container>
+
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

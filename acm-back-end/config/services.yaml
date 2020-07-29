@@ -10,6 +10,9 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            App\Import\Manager: '@import.manager'
+
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -20,6 +23,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+            - '../src/Import/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -29,3 +33,42 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    import.job.validate_row:
+        class: App\Import\Job\ValidateRow
+
+    import.job.hydrate:
+        class: App\Import\Job\Hydrate
+
+    import.job.validate_format:
+        class: App\Import\Job\ValidateFormat
+
+    import.job.route:
+        class: App\Import\Job\Route
+        arguments: ['@doctrine.orm.entity_manager']
+
+    import.pipeline:
+        class: App\Import\Pipeline
+        arguments:
+            $jobs:
+                - "@import.job.validate_row"
+                - "@import.job.hydrate"
+                - "@import.job.validate_format"
+                - "@import.job.route"
+
+    import.payload.payload_generator:
+        class: App\Import\Payload\PayloadGenerator
+
+    import.manager:
+        class: App\Import\Manager
+        arguments:
+            $pipeline: "@import.pipeline"
+            $chargedFeesDao: "@app.charged_fees_dao"
+            $payloadGenerator: "@import.payload.payload_generator"
+            $em: "@doctrine.orm.entity_manager"
+
+    app.charged_fees_dao:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - App\Entity\ChargedFees

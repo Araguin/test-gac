@@ -14,7 +14,7 @@ export class ChargedFeesComponent implements OnInit {
   progress: number;
   public form: FormGroup;
   chargedFees: ChargedFees[];
-  displayedColumns: string[] = ['name', 'state'];
+  displayedColumns: string[] = ['name', 'state', 'totalRows', 'errors'];
   isLoading: boolean;
       
   constructor(protected _chargedFeesService: ChargedFeesService) {
@@ -30,10 +30,9 @@ export class ChargedFeesComponent implements OnInit {
 	submit() {
     this.isLoading = true;
     this._chargedFeesService.createChargedFees(this.form.value).subscribe(event => {
-        this.chargedFees.push(event);
-      	console.log(event);
-      	this.form.reset();
+        this.form.reset();
         this.isLoading = false;
+        this.loadChargedFees();
   	});
   }
 
