@@ -15,23 +15,23 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 })
 export class FileUploadComponent implements OnInit {
 	@Input() progress;
-  	onChange: Function;
+	onChange: Function;
 	file: File | null = null;
-  	@HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
-    	const file = event && event.item(0);
-    	this.onChange(file);
-    	this.file = file;
-  	}
+	@HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
+  	const file = event && event.item(0);
+  	this.onChange(file);
+  	this.file = file;
+	}
 
-  	constructor( private host: ElementRef<HTMLInputElement> ) {}
+	constructor( private host: ElementRef<HTMLInputElement> ) {}
 
-  	ngOnInit(): void {
-  	}
+	ngOnInit(): void {
+	}
 
-  	writeValue( value: null ) {
-	    // clear file input
-	    this.host.nativeElement.value = '';
-	    this.file = null;
+	writeValue( value: null ) {
+    // clear file input
+    this.host.nativeElement.value = '';
+    this.file = null;
  	}
 
 	registerOnChange( fn: Function ) {
@@ -40,6 +40,4 @@ export class FileUploadComponent implements OnInit {
 
 	registerOnTouched( fn: Function ) {
 	}
-
-
 }

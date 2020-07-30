@@ -5,27 +5,35 @@ This MS allows to load fees files and siplay them in a symfony, mysql, angular e
 ## Docker containers:
 
 		DataBase:
-		 1. MySQL
-		 2. PhpMyAdmin
+		 1. database
 		
 		Server Code:
-		 1. PHP
-		 2. Apache
+		 1. application
+		 2. nginx-back
 	 
 		 Front End Code:
-		 1. NGINX
+		 1. client
+		 2. nginx-front
 
 
 Usage
 -----
 Run development environment
 ```bash
-$ docker-compose up
-```
-or run in background
-```bash
 $ docker-compose up -d
 ```
+To update composer and create database
+```bash
+$ docker exec -it acm-back-end /bin/bash
+$ composer update
+$ php bin/console doctrine:schema:update --force
+```
+To execute import, use front office to uload your file then run on acm-back-end
+```bash
+$ php bin/console app:import-charged-fees-file
+```
+
+
 To down environment
 ```bash
 $ docker-compose down
@@ -47,8 +55,6 @@ $ docker-compose up --force-recreate
 
 Access to projects
 ------------------
-Symfony: http://localhost:82
+Symfony: http://localhost:8000
 
-Angular: http://localhost:4200
-
-Phpmyadmin: http://localhost:8080
+Angular: http://localhost:8080
